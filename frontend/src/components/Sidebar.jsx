@@ -29,7 +29,10 @@ export default function Sidebar({ open, onClose }) {
   const location = useLocation();
   const { user } = useAuth();
   const subjects = getSubjectsForUser(user);
-  const isCSUG = /^UG\s+Year\s+[1-4]$/i.test(String(user?.studentClass || "")) && user?.branch === "Computer Science";
+  const studentClass = String(user?.studentClass || "");
+  const isSchoolCodeUser = /^Class\s+(8|9|10|11|12)$/i.test(studentClass);
+  const isCSUG = /^UG\s+Year\s+[1-4]$/i.test(studentClass) && user?.branch === "Computer Science";
+  const canUseCodeEditor = isSchoolCodeUser || isCSUG;
   const [subjectsOpen, setSubjectsOpen] = useState(location.pathname.startsWith("/subjects"));
   useEffect(() => { if (location.pathname.startsWith("/subjects")) setSubjectsOpen(true); }, [location.pathname]);
   const close = () => onClose?.();
@@ -65,7 +68,7 @@ export default function Sidebar({ open, onClose }) {
             })}
           </div>}
 
-          {isCSUG && <Item to="/code-editor" label="Code Editor" icon="code" active={active("/code-editor")} onClick={close} badge="CS" />}
+          {canUseCodeEditor && <Item to="/code-editor" label="Code Editor" icon="code" active={active("/code-editor")} onClick={close} badge={isCSUG ? "CS" : "CODE"} />}
           <Item to="/doubt-solver" label="AI Doubt Solver" icon="doubt" active={active("/doubt-solver")} onClick={close} badge="AI" />
           <Item to="/resources" label="Resources" icon="resources" active={active("/resources")} onClick={close} />
         </div>
