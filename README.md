@@ -10,7 +10,7 @@ open-source LLM.
 
 1. **Register / log in** — student-only accounts (name, email, password, class).
 2. **Welcome** — a short, warm welcome screen, then the student picks a subject to start with.
-3. **3-level diagnostic quiz** — Easy / Medium / Hard, 12 questions total. The hardest two
+3. **3-level diagnostic quiz** — Easy / Medium / Hard, 25 questions total. The hardest
    questions are deliberately pitched one grade level above the student, to probe the real
    ceiling of their understanding rather than just confirming the syllabus.
 4. **Gap analysis** — answers are graded deterministically in code (not by the AI, so scoring
@@ -37,6 +37,43 @@ AI layer    backend/services/aiService.js — calls Groq's free API, which serve
             open-source models (Llama 3.3 70B by default). This is the only place
             the AI is called from; every route goes through it.
 ```
+## Tech Stack
+
+      ### Frontend
+      - React.js
+      - Vite
+      - JavaScript (ES6+)
+      - Tailwind CSS
+      - React Router
+      - Axios
+      
+      ### Backend
+      - Node.js
+      - Express.js
+      - JavaScript
+      - REST APIs
+      - JWT Authentication
+      - CORS
+      
+      ### Database
+      - MongoDB
+      - MongoDB Atlas
+      - Mongoose
+      
+      ### AI / Doubt Solver
+      - AI-powered Doubt Solver
+      - PDF/question-based doubt solving
+      - AI service integration
+      
+      ### Deployment
+      - Render — Frontend & Backend
+      - GitHub — Version Control & CI/CD
+      - MongoDB Atlas — Cloud Database
+      
+      ### Development Tools
+      - Visual Studio Code
+      - Git & GitHub
+      - npm
 
 ### Why this AI setup
 Groq was chosen because it's free, has no local hosting requirement (so it deploys cleanly
