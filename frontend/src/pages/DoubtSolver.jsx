@@ -128,7 +128,7 @@ export default function DoubtSolver() {
             </button>
           </form>
 
-          <div className="rounded-3xl bg-ink p-6 text-paper sm:p-8">
+          <div className="adaptive-panel rounded-3xl p-6 sm:p-8">
             <p className="eyebrow !text-gold">How Trailhead teaches</p>
             <h2 className="mt-2 font-display text-3xl font-semibold">Don't just give me the answer.</h2>
             <div className="mt-7 space-y-4">

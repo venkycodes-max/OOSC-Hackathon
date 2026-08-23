@@ -52,7 +52,7 @@ export default function Resources() {
           </div>
         </section>
 
-        <div className="mt-6 rounded-3xl bg-ink p-6 text-paper sm:p-8">
+        <div className="adaptive-panel mt-6 rounded-3xl p-6 sm:p-8">
           <p className="eyebrow !text-gold">Need a personalized next step?</p>
           <h2 className="mt-2 font-display text-3xl font-semibold">Use your Learning Trail.</h2>
           <p className="mt-3 max-w-xl text-sm leading-6 text-paper/65">Your trail connects your assessment, strengths, focus areas and next milestone into one route.</p>

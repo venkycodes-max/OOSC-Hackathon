@@ -40,13 +40,13 @@ export default function AdaptiveRoadmap() {
                       type="button"
                       onClick={() => setActive(index)}
                       aria-pressed={isActive}
-                      className={`rounded-2xl border p-4 text-left transition-all duration-500 ${isActive ? "bg-ink text-paper border-ink shadow-xl shadow-ink/15 -translate-y-2" : "bg-white text-ink border-slate/10 hover:-translate-y-1"}`}
+                      className={`rounded-2xl border p-4 text-left transition-all duration-500 ${isActive ? "adaptive-panel border-ink shadow-xl shadow-ink/15 -translate-y-2" : "bg-surface text-ink border-slate/10 hover:-translate-y-1"}`}
                     >
                       <div className={`mb-5 grid h-12 w-12 place-items-center rounded-full border font-mono text-xs ${isActive ? "border-gold bg-gold text-ink" : isPast ? "border-moss bg-moss text-paper" : "border-slate/20 bg-paper text-slate"}`}>{isPast ? "✓" : step.label}</div>
                       <p className="font-display text-lg font-semibold">{step.title}</p>
-                      <p className={`mt-2 text-xs leading-5 ${isActive ? "text-paper/60" : "text-slate"}`}>{step.text}</p>
+                      <p className={`mt-2 text-xs leading-5 ${isActive ? "text-slate" : "text-slate"}`}>{step.text}</p>
                       <div className="mt-5 space-y-1.5">
-                        {step.items.map(item => <div key={item} className={`text-[10px] font-mono ${isActive ? "text-paper/45" : "text-slate/65"}`}>→ {item}</div>)}
+                        {step.items.map(item => <div key={item} className={`text-[10px] font-mono ${isActive ? "text-slate" : "text-slate/65"}`}>→ {item}</div>)}
                       </div>
                     </button>
                   );

@@ -1,137 +1,108 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import PublicNavbar from "../components/PublicNavbar.jsx";
 import PublicFooter from "../components/PublicFooter.jsx";
 import AdaptiveRoadmap from "../components/AdaptiveRoadmap.jsx";
 import ComparisonSection from "../components/ComparisonSection.jsx";
 
-const trailCards = [
-  { topic: "Quadratic Equations", status: "Mastered", kind: "done", title: "A foundation you can trust.", text: "You've already built enough confidence here to keep moving." },
-  { topic: "Functions & Graphs", status: "Current focus", kind: "now", title: "This is where your trail points next.", text: "Trailhead gives extra attention to the concepts most likely to unlock your next milestone." },
-  { topic: "Calculus Foundations", status: "Next", kind: "next", title: "A milestone waiting ahead.", text: "Once your current focus is stronger, this becomes the next route marker." },
-  { topic: "Probability", status: "Upcoming", kind: "next", title: "Further along the route.", text: "You don't need to study everything at once. Your trail keeps the next step visible." },
-];
-
-const features = [
-  ["Personal diagnosis", "Find the topics that need attention before spending hours studying them."],
-  ["Goal-aware roadmap", "Prepare differently for an entrance exam, placements, coursework, or general improvement."],
-  ["Targeted weekly quizzes", "Practice follows your current weak spots instead of repeating what you already know."],
-];
-
+const subjects = ["Mathematics", "Physics", "Chemistry", "Biology", "Computer Science", "English"];
 const steps = [
-  { n: "01", title: "Diagnose", text: "A short check-in maps what you know across easy, medium, and hard questions." },
-  { n: "02", title: "Understand", text: "Your answer pattern becomes clear strengths, gaps, and priorities." },
-  { n: "03", title: "Build your trail", text: "Your goal shapes a practical sequence of milestones." },
-  { n: "04", title: "Keep moving", text: "Weekly check-ins show whether the work is actually sticking." },
+  ["01", "Assess", "Start with a short diagnostic that finds what you know and what needs attention."],
+  ["02", "Personalize", "Your results become a learning route built around your class, branch and goal."],
+  ["03", "Improve", "Use quizzes, resources and the AI Doubt Solver to keep moving."],
+];
+const stats = [
+  ["AI", "Doubt Solver"],
+  ["6+", "Core learning areas"],
+  ["24/7", "Personalized trail"],
+  ["100%", "Progress saved"],
 ];
 
 export default function Home() {
-  const [activeCard, setActiveCard] = useState(1);
-
-  useEffect(() => {
-    const timer = setInterval(() => setActiveCard(current => (current + 1) % trailCards.length), 4200);
-    return () => clearInterval(timer);
-  }, []);
-
-  const card = trailCards[activeCard];
-
   return (
     <div className="page-shell bg-paper">
       <PublicNavbar />
       <main className="flex-1">
-        <section className="hero-grid overflow-hidden">
-          <div className="mx-auto grid max-w-6xl items-center gap-14 px-5 py-20 sm:px-6 md:grid-cols-[1.05fr_.95fr] md:py-28">
-            <div className="animate-fade-up">
-              <div className="eyebrow mb-5"><span className="h-1.5 w-1.5 rounded-full bg-gold" /> Your learning, mapped.</div>
-              <h1 className="max-w-3xl font-display text-5xl font-semibold leading-[1.02] tracking-tight sm:text-6xl lg:text-7xl">
-                Stop wondering what to study <span className="text-gold">next.</span>
+        <section className="hero-grid relative overflow-hidden">
+          <div className="hero-orb left-[5%] top-16 h-40 w-40 bg-violet-400/15 blur-3xl" />
+          <div className="hero-orb right-[5%] top-20 h-56 w-56 bg-sky-400/15 blur-3xl" />
+
+          <div className="mx-auto max-w-6xl px-5 pb-16 pt-16 sm:px-6 sm:pt-20 lg:pb-20">
+            <div className="mx-auto max-w-4xl text-center animate-fade-up">
+              <div className="mx-auto inline-flex items-center gap-2 rounded-full border border-gold/20 bg-gold/10 px-4 py-2 text-[11px] font-bold uppercase tracking-[.16em] text-gold">
+                <span className="h-2 w-2 rounded-full bg-gold animate-pulse" /> AI-powered adaptive learning
+              </div>
+              <h1 className="mt-7 font-display text-5xl font-extrabold leading-[1.04] tracking-[-.04em] sm:text-6xl lg:text-7xl">
+                Learn smarter.<br />
+                <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-sky-500 bg-clip-text text-transparent">Know what to do next.</span>
               </h1>
-              <p className="mt-7 max-w-xl text-lg leading-8 text-slate">Trailhead diagnoses where you stand, finds the gaps that matter, and turns them into a personalized learning trail built around your goal.</p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <Link to="/register" className="button-primary justify-center">Build my learning trail <span>→</span></Link>
-                <Link to="/about" className="button-secondary justify-center">See how it works</Link>
+              <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-slate sm:text-lg">
+                Trailhead turns your assessment results into a personalized learning trail — so you spend less time guessing and more time improving.
+              </p>
+
+              <div className="mx-auto mt-9 flex max-w-2xl items-center gap-2 rounded-[22px] border border-ink/10 bg-surface p-2 shadow-[0_20px_60px_rgba(15,23,42,.10)]">
+                <span className="pl-4 text-slate">⌕</span>
+                <input className="min-w-0 flex-1 bg-transparent px-2 py-3 text-sm outline-none placeholder:text-slate/60" placeholder="What do you want to get better at?" aria-label="Learning search" />
+                <Link to="/register" className="rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-500 px-5 py-3 text-xs font-bold text-white shadow-lg shadow-violet-500/20 transition hover:-translate-y-0.5">Find my trail →</Link>
               </div>
-              <p className="mt-5 text-xs text-slate">Free to start · Student-focused · One subject per assessment</p>
+
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+                <span className="mr-1 text-xs font-semibold text-slate">Explore:</span>
+                {subjects.map(s => <span key={s} className="rounded-full border border-ink/10 bg-surface px-3 py-1.5 text-[11px] font-semibold text-slate">{s}</span>)}
+              </div>
             </div>
 
-            <div className="relative animate-fade-up delay-100">
-              <div className="absolute -inset-6 rounded-[40px] bg-gold/10 blur-2xl" />
-              <div className="relative rounded-[28px] border border-ink/10 bg-white p-5 shadow-[0_30px_80px_rgba(27,35,64,.14)] sm:p-7" aria-live="polite">
-                <div className="flex items-center justify-between border-b border-ink/10 pb-5">
-                  <div>
-                    <p className="text-xs font-mono uppercase tracking-[.18em] text-slate">Your learning trail</p>
-                    <p className="mt-1 font-display text-xl font-semibold">Mathematics · Class 12</p>
-                  </div>
-                  <span className="rounded-full bg-moss/10 px-3 py-1 text-xs font-medium text-moss">{card.status}</span>
+            <div className="relative mx-auto mt-16 max-w-5xl animate-fade-up delay-100">
+              <div className="absolute -inset-5 rounded-[40px] bg-gradient-to-r from-violet-500/10 via-fuchsia-500/10 to-sky-500/10 blur-2xl" />
+              <div className="glass-card relative overflow-hidden rounded-[32px] p-4 sm:p-6">
+                <div className="mb-4 flex items-center justify-between">
+                  <div><p className="text-[10px] font-bold uppercase tracking-[.18em] text-slate">Personal learning dashboard</p><p className="mt-1 font-display text-xl font-bold">Your trail at a glance</p></div>
+                  <span className="rounded-full bg-emerald-500/10 px-3 py-1.5 text-[10px] font-bold text-emerald-600">● On track</span>
                 </div>
-
-                <div className="mt-5 min-h-[250px]">
-                  <div className="trail-preview">
-                    {trailCards.map((item, i) => (
-                      <button key={item.topic} type="button" onClick={() => setActiveCard(i)} className={`relative flex w-full gap-4 rounded-xl p-2 text-left transition-all duration-500 ${i === activeCard ? "bg-gold/5 -translate-y-1" : "opacity-55 hover:opacity-90"}`}>
-                        <span className={`preview-node ${item.kind}`}>{item.kind === "done" ? "✓" : i + 1}</span>
-                        <span className="pb-3">
-                          <span className="block text-sm font-semibold text-ink">{item.topic}</span>
-                          <span className={`mt-1 block text-xs ${item.kind === "done" ? "text-moss" : item.kind === "now" ? "text-gold" : "text-slate"}`}>{item.status}</span>
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mt-1 rounded-2xl bg-ink p-4 text-paper transition-all duration-500">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <p className="text-xs text-paper/55">{card.status}</p>
-                      <p className="mt-1 font-medium">{card.title}</p>
-                      <p className="mt-1 text-xs leading-5 text-paper/55">{card.text}</p>
+                <div className="grid gap-4 lg:grid-cols-[1.2fr_.8fr]">
+                  <div className="hero-trail-card rounded-3xl p-6 text-white">
+                    <div className="flex items-center justify-between"><div><p className="text-xs text-white/55">Current focus</p><h3 className="mt-1 text-xl font-bold">Mathematics</h3></div><span className="rounded-xl bg-white/10 px-3 py-2 text-xs font-bold">72%</span></div>
+                    <div className="mt-7 space-y-4">
+                      {[["Quadratic Equations", "Mastered", "bg-emerald-400"], ["Functions & Graphs", "Current focus", "bg-violet-400"], ["Calculus Foundations", "Next up", "bg-white/30"]].map(([name,status,dot],i) => (
+                        <div key={name} className="flex items-center gap-3">
+                          <span className={`grid h-8 w-8 place-items-center rounded-full ${dot} text-[11px] font-bold text-slate-950`}>{i === 0 ? "✓" : i + 1}</span>
+                          <div className="min-w-0 flex-1"><p className="text-sm font-semibold">{name}</p><p className="text-[10px] text-white/45">{status}</p></div>
+                          {i === 1 && <span className="h-1.5 w-16 overflow-hidden rounded-full bg-white/10"><span className="block h-full w-3/4 rounded-full bg-violet-400" /></span>}
+                        </div>
+                      ))}
                     </div>
-                    <span className="mt-1 text-gold">→</span>
                   </div>
-                </div>
-
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="flex gap-1.5" role="tablist" aria-label="Learning trail preview">
-                    {trailCards.map((item, i) => <button key={item.topic} type="button" role="tab" aria-selected={i === activeCard} aria-label={`Show ${item.topic}`} onClick={() => setActiveCard(i)} className={`h-1.5 rounded-full transition-all ${i === activeCard ? "w-7 bg-gold" : "w-1.5 bg-slate/25"}`} />)}
-                  </div>
-                  <div className="flex gap-2">
-                    <button type="button" aria-label="Previous trail card" onClick={() => setActiveCard((activeCard - 1 + trailCards.length) % trailCards.length)} className="grid h-8 w-8 place-items-center rounded-full border border-ink/10 text-sm transition hover:bg-ink hover:text-paper">←</button>
-                    <button type="button" aria-label="Next trail card" onClick={() => setActiveCard((activeCard + 1) % trailCards.length)} className="grid h-8 w-8 place-items-center rounded-full border border-ink/10 text-sm transition hover:bg-ink hover:text-paper">→</button>
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+                    <div className="rounded-3xl border border-ink/10 bg-surface p-5"><p className="text-xs font-bold text-slate">AI insight</p><p className="mt-2 font-display text-lg font-bold">Focus on functions next.</p><p className="mt-1 text-xs leading-5 text-slate">Your recent answers show this topic can unlock your next milestone.</p></div>
+                    <div className="rounded-3xl bg-gradient-to-br from-violet-500/10 to-sky-500/10 p-5"><p className="text-xs font-bold text-slate">Weekly check-in</p><div className="mt-3 flex items-end justify-between"><span className="font-display text-3xl font-extrabold">+12%</span><span className="text-xs font-bold text-emerald-600">since last test</span></div><div className="mt-3 h-2 rounded-full bg-white/70"><div className="h-full w-3/4 rounded-full bg-gradient-to-r from-violet-500 to-sky-400" /></div></div>
                   </div>
                 </div>
               </div>
             </div>
+
+            <div className="mx-auto mt-14 grid max-w-4xl grid-cols-2 gap-3 sm:grid-cols-4">
+              {stats.map(([value,label]) => <div key={label} className="rounded-2xl border border-ink/10 bg-surface px-4 py-4 text-center shadow-sm"><p className="font-display text-2xl font-extrabold text-ink">{value}</p><p className="mt-1 text-[10px] font-bold uppercase tracking-wider text-slate">{label}</p></div>)}
+            </div>
           </div>
         </section>
 
-        <section className="border-y border-ink/10 bg-white">
-          <div className="mx-auto grid max-w-6xl gap-8 px-5 py-12 sm:px-6 md:grid-cols-3">
-            {features.map(([title, text]) => <div key={title} className="md:border-l md:border-ink/10 md:pl-8 first:md:border-0 first:md:pl-0"><p className="font-display text-xl font-semibold">{title}</p><p className="mt-2 text-sm leading-6 text-slate">{text}</p></div>)}
-          </div>
-        </section>
-
-        <section className="mx-auto w-full max-w-[1680px] px-5 py-20 sm:px-6 md:py-28">
-          <div className="max-w-2xl">
-            <p className="eyebrow">A better starting point</p>
-            <h2 className="section-title">The roadmap starts with you, not a template.</h2>
-            <p className="section-copy">Most study plans begin with a syllabus. Trailhead begins with your actual performance, then uses your goal to decide what deserves your time.</p>
-          </div>
-          <div className="mt-14 grid gap-4 md:grid-cols-4">
-            {steps.map(step => <div key={step.n} className="group rounded-2xl border border-ink/10 bg-white p-6 transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-ink/5"><span className="font-mono text-xs text-gold">{step.n}</span><h3 className="mt-8 font-display text-2xl font-semibold">{step.title}</h3><p className="mt-3 text-sm leading-6 text-slate">{step.text}</p></div>)}
+        <section className="border-y border-ink/10 bg-surface">
+          <div className="mx-auto max-w-6xl px-5 py-16 sm:px-6 lg:py-20">
+            <div className="text-center"><p className="eyebrow justify-center">How Trailhead works</p><h2 className="section-title mx-auto text-center">A learning platform that adapts to you.</h2><p className="section-copy mx-auto text-center">No one-size-fits-all timetable. Your trail changes as your understanding changes.</p></div>
+            <div className="mt-12 grid gap-4 md:grid-cols-3">
+              {steps.map(([n,title,text]) => <div key={n} className="group rounded-[26px] border border-ink/10 bg-paper p-6 transition duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-violet-500/5"><span className="grid h-10 w-10 place-items-center rounded-xl bg-gold/10 text-xs font-extrabold text-gold">{n}</span><h3 className="mt-7 font-display text-2xl font-bold">{title}</h3><p className="mt-3 text-sm leading-6 text-slate">{text}</p></div>)}
+            </div>
           </div>
         </section>
 
         <AdaptiveRoadmap />
         <ComparisonSection />
 
-        <section className="bg-ink text-paper">
-          <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-20 sm:px-6 md:grid-cols-[1fr_auto] md:py-24">
-            <div>
-              <p className="eyebrow !text-gold">Start from where you are</p>
-              <h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold leading-tight sm:text-5xl">Your next step should be clearer than your last.</h2>
-              <p className="mt-5 max-w-xl text-paper/65">Take the diagnostic, choose what you're working toward, and let Trailhead chart the first route.</p>
-            </div>
-            <Link to="/register" className="button-primary whitespace-nowrap">Create your account →</Link>
+        <section className="adaptive-panel adaptive-cta relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(124,58,237,.35),transparent_30%),radial-gradient(circle_at_80%_80%,rgba(14,165,233,.25),transparent_30%)]" />
+          <div className="relative mx-auto grid max-w-6xl items-center gap-8 px-5 py-20 sm:px-6 md:grid-cols-[1fr_auto]">
+            <div><p className="text-xs font-bold uppercase tracking-[.18em] cta-eyebrow">Your next step starts here</p><h2 className="mt-4 max-w-2xl font-display text-4xl font-extrabold leading-tight sm:text-5xl">Stop guessing. Start with a trail.</h2><p className="mt-5 max-w-xl text-sm leading-7 cta-copy">Create your account, take the diagnostic and let Trailhead map your next move.</p></div>
+            <Link to="/register" className="cta-button rounded-2xl px-6 py-3 text-sm font-extrabold shadow-xl transition hover:-translate-y-0.5">Start learning free →</Link>
           </div>
         </section>
       </main>

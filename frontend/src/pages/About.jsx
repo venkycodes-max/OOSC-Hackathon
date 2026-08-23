@@ -16,7 +16,7 @@ export default function About() {
             ["Prioritize gaps", "Weak topics become the first milestones on your trail, while strong areas stay visible without taking unnecessary study time."],
             ["Adapt over time", "Weekly check-ins give the trail new evidence so your focus can move as your understanding improves."],
           ].map(([title, text]) => (
-            <div key={title} className="rounded-3xl border border-ink/10 bg-white p-7">
+            <div key={title} className="rounded-3xl border border-ink/10 bg-surface p-7">
               <h2 className="font-display text-2xl font-semibold">{title}</h2>
               <p className="mt-3 text-sm leading-6 text-slate">{text}</p>
             </div>

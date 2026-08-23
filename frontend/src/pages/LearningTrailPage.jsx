@@ -86,7 +86,7 @@ export default function LearningTrailPage() {
             <h1 className="mt-2 font-display text-4xl font-semibold sm:text-5xl">My Learning Trail</h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate">Choose a subject to see its full curriculum route. Quiz results recalculate the route, preserving mastered milestones and bringing weak areas forward.</p>
           </div>
-          <select value={subject} onChange={(e) => setSubject(e.target.value)} className="rounded-xl border border-ink/10 bg-white px-4 py-3 text-sm font-medium outline-none focus:border-gold">
+          <select value={subject} onChange={(e) => setSubject(e.target.value)} className="rounded-xl border border-ink/10 bg-surface px-4 py-3 text-sm font-medium outline-none focus:border-gold">
             {subjects.map((item) => <option key={item}>{item}</option>)}
           </select>
         </div>
@@ -100,7 +100,7 @@ export default function LearningTrailPage() {
             <p className="eyebrow text-gold">Assessment needed</p>
             <h2 className="mt-2 font-display text-2xl font-semibold">Take the {subject} quiz to build your trail.</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate">Trailhead does not guess your strengths or weak areas. Once you complete the {subject} assessment, your full {subject} curriculum route will appear here with at least four resources for every phase.</p>
-            <a href={`/subjects/${subject.toLowerCase().replace(/\s+/g, "-")}`} className="mt-5 inline-flex rounded-xl bg-ink px-4 py-2.5 text-sm font-semibold text-paper">Take {subject} quiz →</a>
+            <a href={`/subjects/${subject.toLowerCase().replace(/\s+/g, "-")}`} className="mt-5 inline-flex rounded-xl bg-ink px-4 py-2.5 text-sm font-semibold text-paper dark:bg-paper dark:text-ink">Take {subject} quiz →</a>
           </div>
         )}
 

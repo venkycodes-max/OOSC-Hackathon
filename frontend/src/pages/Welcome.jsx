@@ -7,10 +7,10 @@ export default function Welcome() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-ink flex items-center justify-center px-4">
+    <div className="adaptive-panel min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-lg text-center">
         <p className="text-gold font-mono text-xs tracking-widest uppercase mb-4">Trailhead</p>
-        <h1 className="text-4xl text-paper font-display font-semibold leading-tight mb-4">
+        <h1 className="text-4xl text-ink dark:text-paper font-display font-semibold leading-tight mb-4">
           Welcome aboard, {user?.name?.split(" ")[0]}.
         </h1>
         <p className="text-slate text-base leading-relaxed mb-10">
@@ -37,7 +37,7 @@ export default function Welcome() {
 
           <button
             onClick={() => navigate("/assessment", { state: { mode: "onboarding" } })}
-            className="w-full bg-ink text-paper rounded-lg py-2.5 font-medium hover:bg-ink/90 transition"
+            className="w-full bg-ink text-paper dark:bg-paper dark:text-ink rounded-lg py-2.5 font-medium hover:bg-ink/90 transition"
           >
             Start overall check-in →
           </button>

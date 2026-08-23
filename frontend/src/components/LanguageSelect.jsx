@@ -4,7 +4,7 @@ import { useLanguage } from "../context/LanguageContext.jsx";
 export default function LanguageSelect({ compact = false }) {
   const { language, languages, changeLanguage } = useLanguage();
   return (
-    <label className={`inline-flex items-center gap-2 rounded-xl border border-ink/10 bg-white ${compact ? "px-2.5 py-2" : "px-3 py-2"}`}>
+    <label className={`inline-flex items-center gap-2 rounded-xl border border-ink/10 bg-surface ${compact ? "px-2.5 py-2" : "px-3 py-2"}`}>
       <span className="text-[10px] font-mono uppercase tracking-wider text-slate">Aa</span>
       <select
         value={language}

@@ -92,7 +92,7 @@ export default function QuizRunner({ questions, onComplete, busy, mixed = false 
       <button
         onClick={handleNext}
         disabled={!selected || busy}
-        className="w-full bg-ink text-paper rounded-lg py-2.5 font-medium hover:bg-ink/90 transition disabled:opacity-40"
+        className="w-full bg-ink text-paper dark:bg-paper dark:text-ink rounded-lg py-2.5 font-medium hover:bg-ink/90 transition disabled:opacity-40"
       >
         {busy ? "Submitting..." : isLast ? "Finish & see results" : "Next question"}
       </button>

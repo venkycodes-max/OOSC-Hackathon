@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 
 const STATUS_STYLE = {
-  mastered: { ring:"border-moss bg-moss text-paper", label:"Mastered", labelColor:"text-moss" },
+  mastered: { ring:"border-moss bg-moss text-white", label:"Mastered", labelColor:"text-moss" },
   "in-progress": { ring:"border-gold bg-gold text-ink", label:"In progress", labelColor:"text-gold" },
   upcoming: { ring:"border-slate/30 bg-paper text-slate", label:"Upcoming", labelColor:"text-slate" },
 };
@@ -20,7 +20,7 @@ export default function LearningTrail({ milestones }) {
   const selected = milestones[selectedIndex] || milestones[activeIndex];
 
   return (
-    <div className="relative rounded-3xl border border-ink/10 bg-white p-5 sm:p-8">
+    <div className="relative rounded-3xl border border-ink/10 bg-surface p-5 sm:p-8">
       <div className="absolute bottom-10 left-10 top-10 hidden w-px bg-slate/15 sm:block">
         <div className="w-px bg-gold transition-all duration-1000" style={{ height: `${Math.min(100, ((activeIndex + 1) / milestones.length) * 100)}%` }} />
       </div>
@@ -45,7 +45,7 @@ export default function LearningTrail({ milestones }) {
               <button
                 type="button"
                 onClick={() => setSelectedIndex(idx)}
-                className={`flex-1 rounded-2xl border p-4 text-left transition-all duration-300 ${isSelected ? "border-gold/40 bg-white shadow-lg shadow-ink/5 -translate-y-0.5" : "border-slate/10 bg-white/70 hover:border-slate/20 hover:bg-white"}`}
+                className={`flex-1 rounded-2xl border p-4 text-left transition-all duration-300 ${isSelected ? "border-gold/40 bg-surface shadow-lg shadow-ink/5 -translate-y-0.5" : "border-slate/10 bg-surface/70 hover:border-slate/20 hover:bg-surface"}`}
               >
                 <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
                   <span className={`text-[10px] font-mono uppercase tracking-[.16em] ${style.labelColor}`}>{isActive ? "You are here · " : ""}{style.label}</span>
@@ -65,7 +65,7 @@ export default function LearningTrail({ milestones }) {
       </div>
 
       {selected && (
-        <div className="mt-5 ml-14 rounded-2xl bg-ink p-5 text-paper animate-fade-up">
+        <div className="adaptive-panel mt-5 ml-14 rounded-2xl p-5 animate-fade-up">
           <p className="text-[10px] font-mono uppercase tracking-[.18em] text-gold">Current trail detail</p>
           <p className="mt-2 font-display text-xl font-semibold">{selected.title}</p>
           <p className="mt-1 text-sm leading-6 text-paper/65">{selected.description}</p>

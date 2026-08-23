@@ -10,7 +10,7 @@ const comparisons = [
 
 export default function ComparisonSection() {
   return (
-    <section className="border-y border-slate/10 bg-white py-20 sm:py-28">
+    <section className="border-y border-slate/10 bg-surface py-20 sm:py-28">
       <div className="mx-auto w-full max-w-[1560px] px-5 sm:px-6">
         <div className="mx-auto mb-12 max-w-2xl text-center">
           <p className="eyebrow justify-center text-gold">Why Trailhead</p>
@@ -24,7 +24,7 @@ export default function ComparisonSection() {
               {comparisons.map(([traditional], index) => <div key={index} className="flex items-start gap-3 text-slate"><span className="mt-1 text-xs">—</span><span className="text-sm">{traditional}</span></div>)}
             </div>
           </div>
-          <div className="rounded-3xl bg-ink p-6 text-paper shadow-xl shadow-ink/10 sm:p-8">
+          <div className="adaptive-panel rounded-3xl p-6 shadow-xl shadow-ink/10 sm:p-8">
             <div className="mb-6 flex items-center justify-between">
               <p className="text-[10px] font-mono uppercase tracking-[.18em] text-gold">Trailhead</p>
               <span className="text-xs font-mono text-paper/40">YOUR ROUTE</span>

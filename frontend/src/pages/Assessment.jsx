@@ -77,7 +77,7 @@ export default function Assessment() {
   }, [result]);
 
   return (
-    <div className="min-h-screen bg-ink flex items-center justify-center px-4 py-10">
+    <div className="adaptive-panel min-h-screen flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-2xl">
         <p className="text-gold font-mono text-xs tracking-widest uppercase mb-3 text-center">
           {onboardingMode ? "Overall Baseline · All Subjects" : `${subject} · Diagnostic Check-in`}
@@ -92,7 +92,7 @@ export default function Assessment() {
         {error && !result && (
           <div className="bg-paper rounded-2xl p-6 shadow-xl">
             <p className="text-rust text-sm mb-4">{error}</p>
-            <button onClick={() => window.location.reload()} className="w-full bg-ink text-paper rounded-lg py-2.5 font-medium">
+            <button onClick={() => window.location.reload()} className="w-full bg-ink text-paper dark:bg-paper dark:text-ink rounded-lg py-2.5 font-medium">
               Try again
             </button>
           </div>
@@ -119,7 +119,7 @@ export default function Assessment() {
               ))}
             </div>
 
-            <button onClick={() => navigate("/aim")} className="w-full bg-ink text-paper rounded-lg py-2.5 font-medium">
+            <button onClick={() => navigate("/aim")} className="w-full bg-ink text-paper dark:bg-paper dark:text-ink rounded-lg py-2.5 font-medium">
               Continue to my aim →
             </button>
           </div>
@@ -130,7 +130,7 @@ export default function Assessment() {
             <p className="text-xs font-mono text-slate mb-1">Your score</p>
             <p className="text-5xl font-display font-semibold text-ink mb-4">{result.assessment?.score ?? result.score}%</p>
             <p className="text-ink text-sm leading-relaxed mb-5">{result.assessment?.summary || result.summary}</p>
-            <button onClick={() => navigate("/aim")} className="w-full bg-ink text-paper rounded-lg py-2.5 font-medium">
+            <button onClick={() => navigate("/aim")} className="w-full bg-ink text-paper dark:bg-paper dark:text-ink rounded-lg py-2.5 font-medium">
               Continue →
             </button>
           </div>

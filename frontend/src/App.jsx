@@ -18,6 +18,7 @@ import Analytics from "./pages/Analytics.jsx";
 import Resources from "./pages/Resources.jsx";
 import ResourceDetail from "./pages/ResourceDetail.jsx";
 import Settings from "./pages/Settings.jsx";
+import CodeEditor from "./pages/CodeEditor.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 export default function App() {
@@ -44,6 +45,7 @@ export default function App() {
       <Route path="/resources" element={<ProtectedRoute><Resources /></ProtectedRoute>} />
       <Route path="/resources/:type" element={<ProtectedRoute><ResourceDetail /></ProtectedRoute>} />
       <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+      <Route path="/code-editor" element={<ProtectedRoute><CodeEditor /></ProtectedRoute>} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

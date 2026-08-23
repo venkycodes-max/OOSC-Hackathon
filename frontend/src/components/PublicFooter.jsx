@@ -1,15 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import TrailheadLogo from "./TrailheadLogo.jsx";
 
 export default function PublicFooter() {
   return (
-    <footer className="border-t border-ink/10 bg-ink text-paper">
+    <footer className="adaptive-panel border-t border-ink/10">
       <div className="mx-auto grid max-w-[1680px] gap-10 px-5 py-12 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <div className="flex items-center gap-3">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gold text-ink font-display font-bold">T</span>
-            <span className="font-display text-xl font-semibold">Trailhead</span>
-          </div>
+          <TrailheadLogo />
           <p className="mt-4 max-w-sm text-sm leading-6 text-paper/65">
             A personalized learning trail that starts with what you know and builds toward where you want to go.
           </p>

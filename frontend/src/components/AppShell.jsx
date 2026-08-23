@@ -16,7 +16,7 @@ export default function AppShell({ children }) {
             <button
               type="button"
               onClick={() => setSidebarOpen(true)}
-              className="inline-flex items-center gap-2 rounded-xl border border-ink/10 bg-white px-3 py-2 text-xs font-semibold text-ink shadow-sm"
+              className="inline-flex items-center gap-2 rounded-xl border border-ink/10 bg-surface px-3 py-2 text-xs font-semibold text-ink shadow-sm"
             >
               <span className="text-gold">☰</span> Open learning menu
             </button>

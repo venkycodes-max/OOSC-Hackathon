@@ -19,7 +19,7 @@ export default function Help() {
         <p className="eyebrow">Help & support</p>
         <h1 className="mt-4 font-display text-5xl font-semibold tracking-tight">Questions? Start here.</h1>
         <p className="mt-5 max-w-2xl text-lg leading-8 text-slate">A few answers about how Trailhead works. If you still need help, email us and tell us what you were trying to do.</p>
-        <div className="mt-12 divide-y divide-ink/10 rounded-3xl border border-ink/10 bg-white px-6 sm:px-8">
+        <div className="mt-12 divide-y divide-ink/10 rounded-3xl border border-ink/10 bg-surface px-6 sm:px-8">
           {faqs.map(([q, a]) => (
             <details key={q} className="group py-6">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-5 font-display text-lg font-semibold">
@@ -30,7 +30,7 @@ export default function Help() {
             </details>
           ))}
         </div>
-        <div className="mt-10 rounded-3xl bg-ink p-7 text-paper sm:p-9">
+        <div className="adaptive-panel mt-10 rounded-3xl p-7 sm:p-9">
           <p className="font-display text-2xl font-semibold">Still stuck?</p>
           <p className="mt-2 text-sm leading-6 text-paper/60">We're happy to help with account, assessment, or dashboard issues.</p>
           <a href="mailto:hello@trailhead.study" className="mt-5 inline-flex font-medium text-gold hover:underline">hello@trailhead.study →</a>

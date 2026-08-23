@@ -50,116 +50,59 @@ const resourcePages = {
 export default function ResourceDetail() {
   const { type } = useParams();
   const { user } = useAuth();
-
   const subjects = getSubjectsForUser(user);
   const studentClass = user?.studentClass || "";
-
-  const basePage =
-    resourcePages[type] || resourcePages["concept-refreshers"];
-
-  const subjectLinks = subjects.map((subject) => ({
-    label: `${subject} progress`,
-    to: `/subjects/${subject.toLowerCase().replace(/\s+/g, "-")}`,
-  }));
-
-  const practiceLinks = subjects.map((subject) => ({
-    label: `${subject} practice context`,
-    to: `/subjects/${subject.toLowerCase().replace(/\s+/g, "-")}`,
-  }));
-
+  const basePage = resourcePages[type] || resourcePages["concept-refreshers"];
+  const subjectLinks = subjects.map((subject) => ({ label: `${subject} progress`, to: `/subjects/${subject.toLowerCase().replace(/\s+/g, "-")}` }));
+  const practiceLinks = subjects.map((subject) => ({ label: `${subject} practice context`, to: `/subjects/${subject.toLowerCase().replace(/\s+/g, "-")}` }));
   let page = basePage;
-
   if (type === "concept-refreshers") {
-    page = {
-      ...basePage,
-      links: subjectLinks,
-    };
+    page = { ...basePage, links: subjectLinks };
   } else if (type === "visual-lessons") {
     page = {
       ...basePage,
       links: subjects.map((subject) => ({
         label: `${subject} visual lessons`,
-        external: `https://www.youtube.com/results?search_query=${encodeURIComponent(
-          `${subject} ${studentClass} concepts explained`
-        )}`,
+        external: `https://www.youtube.com/results?search_query=${encodeURIComponent(`${subject} ${studentClass} concepts explained`)}`,
       })),
     };
   } else if (type === "practice-sets") {
-    page = {
-      ...basePage,
-      links: [
-        { label: "View test reports", to: "/weekly-tests" },
-        { label: "View progress & analytics", to: "/analytics" },
-        ...practiceLinks,
-      ],
-    };
+    page = { ...basePage, links: [
+      { label: "View test reports", to: "/weekly-tests" },
+      { label: "View progress & analytics", to: "/analytics" },
+      ...practiceLinks,
+    ] };
   }
 
   return (
     <AppShell>
       <div className="mx-auto w-full max-w-[1560px] px-5 py-8 sm:px-6 lg:py-10">
-        <Link
-          to="/resources"
-          className="text-xs font-semibold text-slate transition hover:text-ink"
-        >
-          ← Back to resources
-        </Link>
+        <Link to="/resources" className="text-xs font-semibold text-slate transition hover:text-ink">← Back to resources</Link>
 
         <section className="mt-6 dashboard-card overflow-hidden">
-          <div className="bg-ink p-7 text-paper sm:p-10">
+          <div className="adaptive-panel p-7 sm:p-10">
             <div className="flex items-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gold text-xl text-ink">
-                {page.icon}
-              </span>
+              <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gold text-xl text-ink">{page.icon}</span>
               <p className="eyebrow !text-gold">{page.eyebrow}</p>
             </div>
-
-            <h1 className="mt-6 font-display text-4xl font-semibold sm:text-5xl">
-              {page.title}
-            </h1>
-
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-paper/65">
-              {page.description}
-            </p>
+            <h1 className="mt-6 font-display text-4xl font-semibold sm:text-5xl">{page.title}</h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-paper/65">{page.description}</p>
           </div>
 
           <div className="p-7 sm:p-10">
-            <p className="max-w-3xl text-sm leading-7 text-slate">
-              {page.intro}
-            </p>
-
+            <p className="max-w-3xl text-sm leading-7 text-slate">{page.intro}</p>
             <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              {page.links.map((item) =>
-                item.external ? (
-                  <a
-                    key={item.label}
-                    href={item.external}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group rounded-2xl border border-ink/10 bg-white p-4 transition hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-md"
-                  >
-                    <span className="text-sm font-semibold text-ink">
-                      {item.label}
-                    </span>
-                    <span className="mt-1 block text-xs text-slate">
-                      Open external lesson search ↗
-                    </span>
-                  </a>
-                ) : (
-                  <Link
-                    key={item.label}
-                    to={item.to}
-                    className="group rounded-2xl border border-ink/10 bg-white p-4 transition hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-md"
-                  >
-                    <span className="text-sm font-semibold text-ink">
-                      {item.label}
-                    </span>
-                    <span className="mt-1 block text-xs text-slate">
-                      Open in Trailhead →
-                    </span>
-                  </Link>
-                )
-              )}
+              {page.links.map((item) => item.external ? (
+                <a key={item.label} href={item.external} target="_blank" rel="noreferrer" className="group rounded-2xl border border-ink/10 bg-surface p-4 transition hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-md">
+                  <span className="text-sm font-semibold text-ink">{item.label}</span>
+                  <span className="mt-1 block text-xs text-slate">Open external lesson search ↗</span>
+                </a>
+              ) : (
+                <Link key={item.label} to={item.to} className="group rounded-2xl border border-ink/10 bg-surface p-4 transition hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-md">
+                  <span className="text-sm font-semibold text-ink">{item.label}</span>
+                  <span className="mt-1 block text-xs text-slate">Open in Trailhead →</span>
+                </Link>
+              ))}
             </div>
           </div>
         </section>

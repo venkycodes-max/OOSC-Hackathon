@@ -28,10 +28,10 @@ export default function AimSelection() {
   }
 
   return (
-    <div className="min-h-screen bg-ink flex items-center justify-center px-4 py-10">
+    <div className="adaptive-panel min-h-screen flex items-center justify-center px-4 py-10">
       <div className="w-full max-w-lg">
         <p className="text-gold font-mono text-xs tracking-widest uppercase mb-3 text-center">Almost there</p>
-        <h1 className="text-3xl text-paper font-display font-semibold text-center mb-2">
+        <h1 className="text-3xl text-ink dark:text-paper font-display font-semibold text-center mb-2">
           What are you working toward?
         </h1>
         <p className="text-slate text-sm text-center mb-8">
@@ -61,7 +61,7 @@ export default function AimSelection() {
             <input
               value={aimDetail}
               onChange={(e) => setAimDetail(e.target.value)}
-              className="w-full rounded-lg border border-slate/30 px-3 py-2 bg-white focus:border-gold outline-none"
+              className="w-full rounded-lg border border-slate/30 px-3 py-2 bg-surface focus:border-gold outline-none"
               placeholder="Optional, but helps us tailor further"
             />
           </div>
