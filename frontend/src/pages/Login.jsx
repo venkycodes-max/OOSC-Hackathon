@@ -12,9 +12,23 @@ export default function Login() {
 
   async function handleSubmit(e) {
     e.preventDefault(); setError(""); setBusy(true);
-    try { const res = await api.post("/auth/login", { email, password }); login(res.data.token, res.data.user); navigate(stageToRoute(res.data.user.onboardingStage)); }
-    catch (err) { setError(err.response?.data?.error || "Something went wrong. Please try again."); }
-    finally { setBusy(false); }
+    try {
+      const res = await api.post("/auth/login", { email, password });
+      login(res.data.token, res.data.user);
+      navigate(stageToRoute(res.data.user.onboardingStage));
+    } catch (err) {
+      if (err.response?.status === 401 || err.response?.status === 404) {
+        setError("Invalid email or password. Please try again.");
+      } else if (err.response?.data?.error) {
+        setError(err.response.data.error);
+      } else if (err.request) {
+        setError("Unable to reach the server. Please try again in a moment.");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    } finally {
+      setBusy(false);
+    }
   }
 
   return <div className="page-shell bg-paper"><PublicNavbar /><main className="auth-shell flex-1"><div className="auth-copy"><p className="eyebrow">Welcome back</p><h1 className="mt-3 font-display text-5xl font-semibold leading-tight">Pick up where your trail left off.</h1><p className="mt-5 text-slate leading-7">Your assessment results, roadmap, and progress are saved to your account.</p></div><form onSubmit={handleSubmit} className="dashboard-card p-6 sm:p-8">
