@@ -46,5 +46,6 @@ export const SUBJECTS = CORE_SUBJECTS;
 export function getSubjectsForUser(user) {
   const isUG = /^UG\s+Year\s+[1-4]$/i.test(String(user?.studentClass || "").trim());
   const branch = isUG && BRANCH_SUBJECTS.includes(user?.branch) ? user.branch : "Computer Science";
+  if (isUG) return ["Mathematics", "Physics", branch, "English"];
   return ["Mathematics", "Physics", "Chemistry", "Biology", branch, "English"];
 }

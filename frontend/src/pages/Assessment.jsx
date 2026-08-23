@@ -107,7 +107,7 @@ export default function Assessment() {
             <p className="text-xs font-mono text-slate mb-1">Overall baseline score</p>
             <p className="text-5xl font-display font-semibold text-ink mb-3">{result.overallScore}%</p>
             <p className="text-ink text-sm leading-relaxed mb-6">
-              Your baseline has been recorded across all six subjects. Choose your aim next and Trailhead will build an individual learning trail for every subject.
+              Your baseline has been recorded across your subjects. Choose your aim next and Trailhead will build an individual learning trail for each available subject.
             </p>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-6">

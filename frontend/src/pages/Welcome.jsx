@@ -14,7 +14,7 @@ export default function Welcome() {
           Welcome aboard, {user?.name?.split(" ")[0]}.
         </h1>
         <p className="text-slate text-base leading-relaxed mb-10">
-          Before we map your learning trail, we'll assess your starting point across all six
+          Before we map your learning trail, we'll assess your starting point across the subjects
           subjects. This is a baseline, not a test you can fail — it helps Trailhead understand
           where you stand before your subject-specific practice begins.
         </p>
