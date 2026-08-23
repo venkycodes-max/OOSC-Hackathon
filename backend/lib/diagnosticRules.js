@@ -2,15 +2,13 @@ export const ONBOARDING_QUESTION_COUNT = 25;
 export const ONBOARDING_DIFFICULTY_COUNTS = { easy: 8, medium: 8, hard: 9 };
 
 // New-account diagnostic distribution.
-// UG users get ten questions from their selected branch and three from each
-// of the five common academic subjects. This gives the branch enough weight
-// without losing the broad baseline needed to build all subject trails.
+// UG users get sixteen questions from their selected branch and three each
+// from Mathematics, Physics, and English. Biology and Chemistry are not separate
+// UG subjects; their old diagnostic slots are redirected into branch questions.
 export const ONBOARDING_SUBJECT_COUNTS = {
   Mathematics: 3,
   Physics: 3,
-  Chemistry: 3,
-  Biology: 3,
-  "Computer Science": 10,
+  "Computer Science": 16,
   English: 3,
 };
 
@@ -31,9 +29,7 @@ export function getOnboardingSubjectCounts(branch = "", studentClass = "") {
     return {
       Mathematics: 3,
       Physics: 3,
-      Chemistry: 3,
-      Biology: 3,
-      [branchSubject]: 10,
+      [branchSubject]: 16,
       English: 3,
     };
   }

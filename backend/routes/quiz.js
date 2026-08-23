@@ -4,7 +4,7 @@ import User from "../models/User.js";
 import Progress from "../models/Progress.js";
 import Assessment from "../models/Assessment.js";
 import { generateWeeklyQuiz, updateProgressNarrative } from "../services/aiService.js";
-import { ALL_SUBJECTS, SUBJECTS, SUBJECT_TOPIC_ALIASES, isValidSubject, topicBelongsToSubject, validateQuiz } from "../lib/subjectRules.js";
+import { ALL_SUBJECTS, SUBJECTS, SUBJECT_TOPIC_ALIASES, getSubjectsForUser, isValidSubject, topicBelongsToSubject, validateQuiz } from "../lib/subjectRules.js";
 import { getSubjectQuiz } from "../lib/subjectQuizBank.js";
 
 const router = express.Router();
@@ -24,6 +24,9 @@ router.get("/weekly/generate", requireAuth, async (req, res) => {
     const user = await User.findById(req.userId);
     const progress = await Progress.findOne({ user: req.userId });
     if (!user) return res.status(404).json({ error: "User not found." });
+    if (!getSubjectsForUser(user).includes(subject)) {
+      return res.status(400).json({ error: "That subject is not available for your course." });
+    }
 
     if (!progress || progress.topicsWeak.length === 0) {
       return res.status(400).json({
@@ -78,6 +81,8 @@ router.get("/weekly/note", requireAuth, async (req, res) => {
     const { recentScore } = req.query;
     const user = await User.findById(req.userId);
     const progress = await Progress.findOne({ user: req.userId });
+    if (!user) return res.status(404).json({ error: "User not found." });
+    if (!getSubjectsForUser(user).includes(subject)) return res.status(400).json({ error: "That subject is not available for your course." });
 
     const subjectWeakTopics = (progress?.topicsWeak || []).filter((topic) => topicBelongsToSubject(topic, subject));
     const subjectStrongTopics = (progress?.topicsMastered || []).filter((topic) => topicBelongsToSubject(topic, subject));

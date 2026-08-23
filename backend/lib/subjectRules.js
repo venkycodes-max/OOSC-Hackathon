@@ -67,6 +67,7 @@ export function getSubjectsForUser(userOrClass = "", branch = "") {
   const selectedBranch = typeof userOrClass === "object" ? userOrClass?.branch || "" : branch;
   const isUGUser = /^UG\s+Year\s+[1-4]$/i.test(String(studentClass).trim());
   const branchSubject = isUGUser && BRANCH_SUBJECTS.includes(selectedBranch) ? selectedBranch : "Computer Science";
+  if (isUGUser) return ["Mathematics", "Physics", branchSubject, "English"];
   return ["Mathematics", "Physics", "Chemistry", "Biology", branchSubject, "English"];
 }
 
