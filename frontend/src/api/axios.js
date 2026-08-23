@@ -15,11 +15,17 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (err) => {
-    if (err.response?.status === 401) {
+    const url = err.config?.url || "";
+    const isAuthRequest = url.includes("/auth/login") || url.includes("/auth/register");
+
+    // A wrong login password/email returns 401. Do not redirect/reload the
+    // login page in that case; let Login.jsx show a friendly error instead.
+    if (err.response?.status === 401 && !isAuthRequest) {
       localStorage.removeItem("trailhead_token");
       localStorage.removeItem("trailhead_user");
       window.location.href = "/login";
     }
+
     return Promise.reject(err);
   }
 );
