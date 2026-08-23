@@ -30,13 +30,17 @@ function buildSearchUrl(provider, query) {
 }
 
 const FALLBACK_RESOURCES = [
-  { provider: "NCERT", title: "Concept guide", querySuffix: "class 10 concept explanation" },
+  { provider: "NCERT", title: "Concept guide", querySuffix: "concept explanation" },
   { provider: "Khan Academy", title: "Visual explanation", querySuffix: "concept explained" },
   { provider: "GeeksforGeeks", title: "Practice and examples", querySuffix: "practice questions examples" },
   { provider: "Coursera", title: "Further learning", querySuffix: "beginner course" },
 ];
 
-function resourcesFor(subject, topic, resources = []) {
+function academicLevelLabel(studentClass) {
+  return String(studentClass || "").trim();
+}
+
+function resourcesFor(subject, topic, resources = [], studentClass = "") {
   const result = [];
   for (const resource of Array.isArray(resources) ? resources : []) {
     if (result.length >= 4) break;
@@ -50,7 +54,10 @@ function resourcesFor(subject, topic, resources = []) {
     result.push({
       title: fallback.title,
       provider: fallback.provider,
-      searchUrl: buildSearchUrl(fallback.provider, `${subject} ${topic} ${fallback.querySuffix}`),
+      searchUrl: buildSearchUrl(
+        fallback.provider,
+        `${subject} ${topic} ${academicLevelLabel(studentClass)} ${fallback.querySuffix}`.replace(/\s+/g, " ").trim()
+      ),
     });
   }
   return result.slice(0, 4);
@@ -128,7 +135,7 @@ async function subjectSnapshot(userId, subject) {
   };
 }
 
-function createMilestones(subject, aiRoadmap, snapshot) {
+function createMilestones(subject, aiRoadmap, snapshot, studentClass = "") {
   const curriculum = SUBJECT_CURRICULUM[subject] || [];
   const aiMilestones = Array.isArray(aiRoadmap?.milestones) ? aiRoadmap.milestones : [];
   const byTopic = new Map();
@@ -191,13 +198,13 @@ function createMilestones(subject, aiRoadmap, snapshot) {
       description: `Master ${topic} in ${subject}, then reinforce it with targeted practice and revision.`,
       status,
       order: index,
-      resources: resourcesFor(subject, topic, []),
+      resources: resourcesFor(subject, topic, [], studentClass),
     };
   });
 }
 
-function deterministicRoadmap(subject, snapshot) {
-  const milestones = createMilestones(subject, { milestones: [] }, snapshot);
+function deterministicRoadmap(subject, snapshot, studentClass = "") {
+  const milestones = createMilestones(subject, { milestones: [] }, snapshot, studentClass);
   const focus = snapshot.weakTopics[0];
   const overview = focus
     ? `Your ${subject} route now covers the full curriculum. ${focus} has moved forward because your assessment results show it needs more practice. Topics you have mastered are kept later for reinforcement.`
@@ -259,8 +266,8 @@ export async function ensureSubjectRoadmap(user, subject, { useAI = true } = {})
     }
   }
 
-  const deterministic = deterministicRoadmap(subject, snapshot);
-  const milestones = createMilestones(subject, generated || deterministic, snapshot);
+  const deterministic = deterministicRoadmap(subject, snapshot, user.studentClass);
+  const milestones = createMilestones(subject, generated || deterministic, snapshot, user.studentClass);
   const latestAt = snapshot.latestAssessment.createdAt;
 
   const roadmap = await Roadmap.findOneAndUpdate(
