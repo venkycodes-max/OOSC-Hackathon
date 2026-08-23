@@ -117,7 +117,7 @@ async function saveAssessment({ user, subject, graded, type, weekNumber, gapAnal
   });
 }
 
-// NEW ACCOUNT ONLY: one overall diagnostic, mixed across the subjects available to the user.
+// NEW ACCOUNT ONLY: one overall diagnostic, mixed across all six subjects.
 // This route is intentionally separate from the subject-specific diagnostic so
 // logged-in users taking a subject quiz are never switched into mixed mode.
 router.get("/onboarding/generate", requireAuth, async (req, res) => {
@@ -167,7 +167,6 @@ router.get("/generate", requireAuth, async (req, res) => {
     const user = await User.findById(req.userId);
     if (!user) return res.status(404).json({ error: "User not found." });
     if (!isValidSubject(subject)) return res.status(400).json({ error: `Invalid subject. Choose one of: ${SUBJECTS.join(", ")}.` });
-    if (!getSubjectsForUser(user).includes(subject)) return res.status(400).json({ error: "That subject is not available for your course." });
 
     let questions = await generateAssessmentQuestions({ subject, studentClass: user.studentClass, branch: user.branch });
     const flat = flattenDiagnostic(questions).map((q) => normalizeQuestionForSubject(q, subject)).filter(Boolean);
@@ -263,7 +262,7 @@ router.post("/submit", requireAuth, async (req, res) => {
           totalQuestions: 25,
           weakTopics: gradedMixed.filter((q) => !q.isCorrect).map((q) => `${q.subject}: ${q.topic}`),
           strongTopics: gradedMixed.filter((q) => q.isCorrect).map((q) => `${q.subject}: ${q.topic}`),
-          summary: `Your overall baseline is ${overallScore}%. Trailhead assessed the subjects available to your course so each can start with its own learning route.`,
+          summary: `Your overall baseline is ${overallScore}%. Trailhead assessed all six subjects so each subject can now start with its own learning route.`,
           type: "initial",
           weekNumber: null,
         });
@@ -296,9 +295,6 @@ router.post("/submit", requireAuth, async (req, res) => {
     // -----------------------------------------------------------------------
     if (!isValidSubject(subject)) {
       return res.status(400).json({ error: `Invalid subject. Choose one of: ${SUBJECTS.join(", ")}.` });
-    }
-    if (!getSubjectsForUser(user).includes(subject)) {
-      return res.status(400).json({ error: "That subject is not available for your course." });
     }
 
     const normalizedQuestions = submittedQuestions.map((q) => normalizeQuestionForSubject(q, subject));

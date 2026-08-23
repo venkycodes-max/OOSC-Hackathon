@@ -23,7 +23,6 @@ router.post("/set-aim", requireAuth, async (req, res) => {
 
     const user = await User.findById(req.userId);
     if (!user) return res.status(404).json({ error: "User not found." });
-    if (!getSubjectsForUser(user).includes(subject)) return res.status(400).json({ error: "That subject is not available for your course." });
 
     user.aim = aim;
     user.aimDetail = aimDetail;
@@ -31,7 +30,7 @@ router.post("/set-aim", requireAuth, async (req, res) => {
     await user.save();
 
     // A new-account overall diagnostic creates one baseline assessment per
-    // subject. Build every available subject trail now, so the dashboard is populated
+    // subject. Build all six subject trails now, so the dashboard is populated
     // immediately after the student chooses an aim. Subject quizzes later
     // refresh only their own trail.
     const roadmaps = {};
@@ -57,7 +56,6 @@ router.post("/refresh", requireAuth, async (req, res) => {
 
     const user = await User.findById(req.userId);
     if (!user) return res.status(404).json({ error: "User not found." });
-    if (!getSubjectsForUser(user).includes(subject)) return res.status(400).json({ error: "That subject is not available for your course." });
 
     const roadmap = await ensureSubjectRoadmap(user, subject);
     if (!roadmap) return res.status(409).json({ error: `Complete at least one ${subject} assessment before building this trail.` });
@@ -73,10 +71,6 @@ router.get("/", requireAuth, async (req, res) => {
     const subject = String(req.query.subject || "").trim();
     if (!isValidSubject(subject)) return res.status(400).json({ error: `A valid subject is required. Choose one of: ${SUBJECTS.join(", ")}.` });
 
-    const user = await User.findById(req.userId);
-    if (!user) return res.status(404).json({ error: "User not found." });
-    if (!getSubjectsForUser(user).includes(subject)) return res.status(400).json({ error: "That subject is not available for your course." });
-
     let roadmap = await Roadmap.findOne({ user: req.userId, subject });
     const latestAssessment = await Assessment.findOne({ user: req.userId, subject }).sort({ createdAt: -1 }).lean();
 
@@ -90,6 +84,7 @@ router.get("/", requireAuth, async (req, res) => {
       // incomplete trails. This prevents an old English roadmap from being
       // displayed after the user switches to Computer Science, for example.
       if (isMissing || isStale || isCrossSubjectOrCorrupt) {
+        const user = await User.findById(req.userId);
         if (user) roadmap = await ensureSubjectRoadmap(user, subject);
       }
     } else if (roadmap && !roadmapBelongsToSubject(roadmap, subject)) {
@@ -117,9 +112,6 @@ router.patch("/milestone/:milestoneId", requireAuth, async (req, res) => {
     if (!isValidSubject(subject)) return res.status(400).json({ error: "A valid subject is required." });
     if (!["upcoming", "in-progress", "mastered"].includes(status)) return res.status(400).json({ error: "Invalid status." });
 
-    const user = await User.findById(req.userId);
-    if (!user) return res.status(404).json({ error: "User not found." });
-    if (!getSubjectsForUser(user).includes(subject)) return res.status(400).json({ error: "That subject is not available for your course." });
     const roadmap = await Roadmap.findOne({ user: req.userId, subject });
     if (!roadmap) return res.status(404).json({ error: "No roadmap found." });
     const milestone = roadmap.milestones.id(req.params.milestoneId);

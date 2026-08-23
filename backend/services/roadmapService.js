@@ -30,11 +30,15 @@ function buildSearchUrl(provider, query) {
 }
 
 const FALLBACK_RESOURCES = [
-  { provider: "NCERT", title: "Concept guide", querySuffix: "class 10 concept explanation" },
+  { provider: "NCERT", title: "Concept guide", querySuffix: "concept explanation" },
   { provider: "Khan Academy", title: "Visual explanation", querySuffix: "concept explained" },
   { provider: "GeeksforGeeks", title: "Practice and examples", querySuffix: "practice questions examples" },
   { provider: "Coursera", title: "Further learning", querySuffix: "beginner course" },
 ];
+
+function academicLevelLabel(studentClass) {
+  return String(studentClass || "").trim();
+}
 
 function resourcesFor(subject, topic, resources = [], studentClass = "") {
   const result = [];
@@ -50,7 +54,10 @@ function resourcesFor(subject, topic, resources = [], studentClass = "") {
     result.push({
       title: fallback.title,
       provider: fallback.provider,
-      searchUrl: buildSearchUrl(fallback.provider, `${subject} ${studentClass} ${topic} ${fallback.querySuffix}`),
+      searchUrl: buildSearchUrl(
+        fallback.provider,
+        `${subject} ${topic} ${academicLevelLabel(studentClass)} ${fallback.querySuffix}`.replace(/\s+/g, " ").trim()
+      ),
     });
   }
   return result.slice(0, 4);
@@ -71,7 +78,7 @@ function topicMatches(a, b) {
  * use the global Progress topics here: doing so is what previously allowed a
  * Biology topic such as "Leaf Anatomy" to leak into a Mathematics trail.
  */
-async function subjectSnapshot(userId, subject, studentClass = "") {
+async function subjectSnapshot(userId, subject) {
   const assessments = await Assessment.find({ user: userId, subject })
     .sort({ createdAt: -1 })
     .limit(200)
@@ -125,7 +132,6 @@ async function subjectSnapshot(userId, subject, studentClass = "") {
     strongTopics,
     attemptedTopics,
     stats,
-    studentClass,
   };
 }
 
@@ -197,8 +203,8 @@ function createMilestones(subject, aiRoadmap, snapshot, studentClass = "") {
   });
 }
 
-function deterministicRoadmap(subject, snapshot) {
-  const milestones = createMilestones(subject, { milestones: [] }, snapshot, snapshot.studentClass || "");
+function deterministicRoadmap(subject, snapshot, studentClass = "") {
+  const milestones = createMilestones(subject, { milestones: [] }, snapshot, studentClass);
   const focus = snapshot.weakTopics[0];
   const overview = focus
     ? `Your ${subject} route now covers the full curriculum. ${focus} has moved forward because your assessment results show it needs more practice. Topics you have mastered are kept later for reinforcement.`
@@ -240,7 +246,7 @@ export function roadmapBelongsToSubject(roadmap, subject) {
  */
 export async function ensureSubjectRoadmap(user, subject, { useAI = true } = {}) {
   if (!user || !subject || !SUBJECT_CURRICULUM[subject]) throw new Error("Invalid roadmap subject.");
-  const snapshot = await subjectSnapshot(user._id, subject, user.studentClass || "");
+  const snapshot = await subjectSnapshot(user._id, subject);
   if (!snapshot.latestAssessment) return null;
 
   let generated = null;
@@ -260,8 +266,8 @@ export async function ensureSubjectRoadmap(user, subject, { useAI = true } = {})
     }
   }
 
-  const deterministic = deterministicRoadmap(subject, snapshot);
-  const milestones = createMilestones(subject, generated || deterministic, snapshot, user.studentClass || "");
+  const deterministic = deterministicRoadmap(subject, snapshot, user.studentClass);
+  const milestones = createMilestones(subject, generated || deterministic, snapshot, user.studentClass);
   const latestAt = snapshot.latestAssessment.createdAt;
 
   const roadmap = await Roadmap.findOneAndUpdate(

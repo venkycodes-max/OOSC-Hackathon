@@ -10,6 +10,7 @@ import quizRoutes from "./routes/quiz.js";
 import dashboardRoutes from "./routes/dashboard.js";
 import doubtRoutes from "./routes/doubts.js";
 import progressRoutes from "./routes/progress.js";
+import codeRoutes from "./routes/code.js";
 import Roadmap from "./models/Roadmap.js";
 
 const app = express();
@@ -30,6 +31,7 @@ app.use("/api/quiz", quizRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/doubts", doubtRoutes);
 app.use("/api/progress", progressRoutes);
+app.use("/api/code", codeRoutes);
 
 app.use((req, res) => res.status(404).json({ error: "Route not found." }));
 

@@ -3,7 +3,7 @@ import { requireAuth } from "../middleware/auth.js";
 import User from "../models/User.js";
 import Assessment from "../models/Assessment.js";
 import Progress from "../models/Progress.js";
-import { SUBJECTS, SUBJECT_CURRICULUM, getSubjectsForUser, isValidSubject, canonicalTopicForSubject } from "../lib/subjectRules.js";
+import { SUBJECTS, SUBJECT_CURRICULUM, isValidSubject, canonicalTopicForSubject } from "../lib/subjectRules.js";
 
 const router = express.Router();
 
@@ -19,11 +19,6 @@ router.get("/subject", requireAuth, async (req, res) => {
       Assessment.find({ user: req.userId, subject }).sort({ createdAt: -1 }).limit(200).lean(),
       Progress.findOne({ user: req.userId }).lean(),
     ]);
-
-    if (!user) return res.status(404).json({ error: "User not found." });
-    if (!getSubjectsForUser(user).includes(subject)) {
-      return res.status(400).json({ error: "That subject is not available for your course." });
-    }
 
     const hasAssessment = assessments.length > 0;
     const stats = new Map((SUBJECT_CURRICULUM[subject] || []).map((topic) => [topic, { correct: 0, total: 0 }]));

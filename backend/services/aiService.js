@@ -103,27 +103,27 @@ export async function generateOnboardingAssessmentQuestions({ studentClass, bran
   const system = `You are an expert academic diagnostic designer. Create ONE overall baseline assessment for a new Trailhead student. Respond ONLY with JSON, no markdown. Every question must be genuinely about its declared subject. Do not mix subjects inside a question. The assessment must be academically meaningful, not a trivial school-level recall test. For senior school (Classes 11-12) and every UG level, Mathematics and Physics hard questions must be genuinely difficult; include 1-2 EXTREME/competitive questions in those subjects.`;
   const onboardingSubjects = getSubjectsForUser(studentClass, branch);
   const subjectRules = onboardingSubjects.map((subject) => `${subject}: ${JSON.stringify(SUBJECT_CURRICULUM[subject] || [])}`).join("\n");
-  const branchRule = isUG(studentClass) ? `The student selected UG branch: "${branch}". The branch subject MUST be "${onboardingSubjects[2]}". Include exactly 16 questions from that branch subject. Do NOT add Biology or Chemistry as separate UG subjects. Do NOT include Computer Science unless the selected branch itself is Computer Science. The branch subject must be a genuine technical/engineering subject, not a generic label.` : "No UG branch applies.";
+  const branchRule = isUG(studentClass) ? `The student selected UG branch: "${branch}". The branch subject MUST be "${onboardingSubjects[4]}". Include exactly 10 questions from that branch subject and do NOT include Computer Science unless the selected branch itself is Computer Science. The branch subject must be a genuine technical/engineering subject, not a generic label.` : "No UG branch applies.";
   const levelRule = questionLevelInstruction(studentClass);
   const user = `Create a 25-question overall diagnostic for a new student in "${studentClass}".
 
 ${levelRule}
 ${branchRule}
 
-SUBJECT COVERAGE: use exactly these subjects: ${onboardingSubjects.join(", ")}. For UG, use exactly 3 Mathematics + 3 Physics + 3 English + 16 ${onboardingSubjects[2]} branch questions. Biology and Chemistry must NOT appear as separate UG subjects. For non-UG, use exactly 4 Mathematics + 4 Physics + 4 Chemistry + 4 Biology + 4 Computer Science + 5 English questions.
+SUBJECT COVERAGE: use exactly these six subjects: ${onboardingSubjects.join(", ")}. For UG, use exactly 3 Mathematics + 3 Physics + 3 Chemistry + 3 Biology + 3 English + 10 ${onboardingSubjects[4]} questions. For non-UG, use exactly 4 Mathematics + 4 Physics + 4 Chemistry + 4 Biology + 4 Computer Science + 5 English questions.
 
 DIFFICULTY COVERAGE: exactly 8 easy, 8 medium and 9 hard questions across the complete 25-question set. Easy should still require understanding, medium should test the next academic level, and hard should include a few genuinely extreme/competitive items.
 
 MATH COVERAGE REQUIREMENT: if Mathematics is included, prioritize broad coverage and include Integrals, Statistics and Probability where possible. For UG students, mathematics should also sample calculus/algebra/linear-algebra style reasoning rather than Class 10 arithmetic.
 
-SUBJECT BREADTH: sample different fields within Mathematics, Physics, English and the selected branch subject rather than repeating one chapter.
+SUBJECT BREADTH: sample different fields within Physics, Chemistry, Biology, the selected branch subject and English rather than repeating one chapter.
 
 ALLOWED CURRICULUM TOPICS for school-level grounding (you may use a more advanced topic label when needed for the student's selected level):
 ${subjectRules}
 
 Each question MUST have this exact shape:
 {
-  "subject": "one of the subjects above",
+  "subject": "one of the six subjects above",
   "question": "string",
   "topic": "specific topic name",
   "difficulty": "easy|medium|hard",
