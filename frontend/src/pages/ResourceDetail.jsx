@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useParams } from "react-router-dom";
 import AppShell from "../components/AppShell.jsx";
 import { SUBJECTS } from "../lib/onboarding.js";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const resourcePages = {
   "concept-refreshers": {
@@ -18,10 +19,7 @@ const resourcePages = {
     eyebrow: "See the concept",
     description: "Use visual explanations when a diagram, animation or worked example makes the idea easier to understand.",
     intro: "Choose a subject to open a curated visual-learning search. These links open in a new tab so you can return to your Trailhead route when you're done.",
-    links: SUBJECTS.map((subject) => ({
-      label: `${subject} visual lessons`,
-      external: `https://www.youtube.com/results?search_query=${encodeURIComponent(`${subject} class 10 concepts explained`)}`,
-    })),
+    links: [],
   },
   "practice-sets": {
     icon: "📝",
@@ -52,7 +50,18 @@ const resourcePages = {
 
 export default function ResourceDetail() {
   const { type } = useParams();
+  const { user } = useAuth();
   const page = resourcePages[type] || resourcePages["concept-refreshers"];
+
+  const academicLevel = user?.studentClass || "";
+  const visualLinks = SUBJECTS.map((subject) => ({
+    label: `${subject} visual lessons`,
+    external: `https://www.youtube.com/results?search_query=${encodeURIComponent(
+      `${subject} ${academicLevel} concepts explained`.trim()
+    )}`,
+  }));
+
+  const links = type === "visual-lessons" ? visualLinks : page.links;
 
   return (
     <AppShell>
@@ -72,7 +81,7 @@ export default function ResourceDetail() {
           <div className="p-7 sm:p-10">
             <p className="max-w-3xl text-sm leading-7 text-slate">{page.intro}</p>
             <div className="mt-7 grid gap-3 sm:grid-cols-2">
-              {page.links.map((item) => item.external ? (
+              {links.map((item) => item.external ? (
                 <a key={item.label} href={item.external} target="_blank" rel="noreferrer" className="group rounded-2xl border border-ink/10 bg-white p-4 transition hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-md">
                   <span className="text-sm font-semibold text-ink">{item.label}</span>
                   <span className="mt-1 block text-xs text-slate">Open external lesson search ↗</span>
