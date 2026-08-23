@@ -93,6 +93,16 @@ npm run dev                # http://localhost:5173
 2. Add env var `VITE_API_URL` = your Render backend URL + `/api`.
 3. Deploy. Update `CLIENT_ORIGIN` on Render to match the resulting Vercel URL.
 
+## Deployment Note
+
+The backend is deployed on Render using the free plan.
+
+Because the backend is hosted on a free Render service, it may **spin down after a period of inactivity**. When someone visits the website after the backend has been inactive, the first request may take a little longer while Render starts the backend again.
+
+After the backend starts, the website should work normally.
+
+> **Note:** This does not mean the deployment has expired or been deleted. The backend is simply waking up from inactivity.
+
 ## Project structure
 
 ```
